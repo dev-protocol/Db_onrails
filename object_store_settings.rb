@@ -237,4 +237,7 @@ class ObjectStoreSettings
 
   def allowed_storage_specific_settings?(store_type, section)
     return false if WORKHORSE_ACCELERATED_TYPES.include?(store_type)
-\
+
+    has_object_store_configured?(section)
+  end
+
