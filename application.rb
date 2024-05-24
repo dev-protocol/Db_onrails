@@ -522,3 +522,20 @@ module Gitlab
 
       # Allow assets to be loaded to web-ide
       # https://gitlab.com/gitlab-org/gitlab/-/issues/421177
+      allow do
+        origins 'https://*.web-ide.gitlab-static.net'
+        resource '/assets/webpack/*',
+          credentials: false,
+          methods: %i[get head]
+      end
+    end
+
+    # Use caching across all environments
+    ActiveSupport::Cache::RedisCacheStore.prepend(Gitlab::Patch::RedisCacheStore)
+    config.cache_store = :redis_cache_store, Gitlab::Redis::Cache.active_support_config
+
+    config.active_job.queue_adapter = :sidekiq
+    config.active_job.logger = nil
+    config.action_mailer.deliver_later_queue_name = :mailers
+
+    # This is needed for gitlab-shell
