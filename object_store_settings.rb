@@ -210,3 +210,12 @@ class ObjectStoreSettings
 
       next unless section
       next unless section.dig('object_store', 'enabled')
+
+      section_connection = section.dig('object_store', 'connection')
+
+      # We can use consolidated settings if the main object store
+      # connection matches the section-specific connection. This makes
+      # it possible to automatically use consolidated settings as new
+      # settings (such as ci_secure_files) get promoted to a supported
+      # type. Omnibus defaults to an empty hash for the
+      # section-specific connection.
