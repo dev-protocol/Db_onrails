@@ -189,3 +189,9 @@ class ObjectStoreSettings
       # the same result.
       settings[store_type]['object_store'] = target_config
     end
+
+    settings
+  end
+
+  private
+
