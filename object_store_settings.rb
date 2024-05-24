@@ -207,3 +207,6 @@ class ObjectStoreSettings
 
     WORKHORSE_ACCELERATED_TYPES.each do |store|
       section = settings.try(store)
+
+      next unless section
+      next unless section.dig('object_store', 'enabled')
