@@ -390,3 +390,15 @@ module Gitlab
     # Import woff2 for fonts
     config.assets.paths << "#{config.root}/node_modules/@gitlab/fonts/"
     config.assets.precompile << "gitlab-sans/*.woff2"
+    config.assets.precompile << "gitlab-mono/*.woff2"
+
+    # Import gitlab-svgs directly from vendored directory
+    config.assets.paths << "#{config.root}/node_modules/@gitlab/svgs/dist"
+    config.assets.paths << "#{config.root}/node_modules/@jihulab/svgs/dist" if Gitlab.jh?
+    config.assets.precompile << "illustrations/jh/*.svg" if Gitlab.jh?
+    config.assets.precompile << "icons.svg"
+    config.assets.precompile << "icons.json"
+    config.assets.precompile << "file_icons/file_icons.svg"
+    config.assets.precompile << "file_icons/file_icons.json"
+    config.assets.precompile << "illustrations/*.svg"
+    config.assets.precompile << "illustrations/*.png"
