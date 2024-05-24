@@ -503,3 +503,22 @@ module Gitlab
 
       # These are routes from doorkeeper-openid_connect:
       # https://github.com/doorkeeper-gem/doorkeeper-openid_connect#routes
+      allow do
+        origins '*'
+        resource '/oauth/userinfo',
+          headers: %w[Authorization],
+          credentials: false,
+          methods: %i[get head post options]
+      end
+
+      %w[/oauth/discovery/keys /.well-known/openid-configuration /.well-known/webfinger].each do |openid_path|
+        allow do
+          origins '*'
+          resource openid_path,
+            credentials: false,
+            methods: %i[get head]
+        end
+      end
+
+      # Allow assets to be loaded to web-ide
+      # https://gitlab.com/gitlab-org/gitlab/-/issues/421177
