@@ -37,3 +37,7 @@ class ObjectStoreSettings
     object_store['proxy_download'] = false if object_store['proxy_download'].nil?
     object_store['storage_options'] ||= {}
 
+    object_store
+  end
+
+  def self.split_bucket_prefix(bucket)
