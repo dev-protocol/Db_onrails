@@ -65,3 +65,8 @@ class ObjectStoreSettings
       object_store_setting = section_setting['object_store']
 
       next unless object_store_setting && object_store_setting['enabled']
+
+      endpoint = object_store_setting.dig('connection', 'endpoint')
+
+      next unless endpoint
+
