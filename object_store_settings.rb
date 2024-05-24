@@ -225,4 +225,7 @@ class ObjectStoreSettings
     true
   end
 
+  def missing_bucket_for(store_type)
+    message = "Object storage for #{store_type} must have a bucket specified"
+
  
