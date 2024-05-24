@@ -62,3 +62,17 @@ module Gitlab
     config.action_controller.per_form_csrf_tokens = false
     config.action_controller.forgery_protection_origin_check = false
     ActiveSupport.to_time_preserves_timezone = false
+
+    require_dependency Rails.root.join('lib/gitlab')
+    require_dependency Rails.root.join('lib/gitlab/action_cable/config')
+    require_dependency Rails.root.join('lib/gitlab/redis/wrapper')
+    require_dependency Rails.root.join('lib/gitlab/redis/multi_store_wrapper')
+    require_dependency Rails.root.join('lib/gitlab/redis/cache')
+    require_dependency Rails.root.join('lib/gitlab/redis/queues')
+    require_dependency Rails.root.join('lib/gitlab/redis/shared_state')
+    require_dependency Rails.root.join('lib/gitlab/redis/trace_chunks')
+    require_dependency Rails.root.join('lib/gitlab/redis/rate_limiting')
+    require_dependency Rails.root.join('lib/gitlab/redis/sessions')
+    require_dependency Rails.root.join('lib/gitlab/redis/repository_cache')
+    require_dependency Rails.root.join('lib/gitlab/redis/db_load_balancing')
+    require_dependency Rails.root.join('lib/gitlab/current_settings')
