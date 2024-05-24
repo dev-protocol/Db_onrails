@@ -219,3 +219,5 @@ class ObjectStoreSettings
       # settings (such as ci_secure_files) get promoted to a supported
       # type. Omnibus defaults to an empty hash for the
       # section-specific connection.
+      return false if section_connection.present? && section_connection.to_h != connection.to_h
+    end
