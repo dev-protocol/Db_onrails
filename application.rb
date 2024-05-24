@@ -174,3 +174,27 @@ module Gitlab
 
     # Translation for AR attrs is not working well for POROs like WikiPage
     config.gettext_i18n_rails.use_for_active_record_attributes = false
+
+    # Configure the default encoding used in templates for Ruby 1.9.
+    config.encoding = "utf-8"
+
+    # Configure sensitive parameters which will be filtered from the log file.
+    #
+    # Parameters filtered:
+    # - Any parameter ending with `token`
+    # - Any parameter containing `password`
+    # - Any parameter containing `secret`
+    # - Any parameter ending with `key`
+    # - Any parameter named `redirect`, filtered for security concerns of exposing sensitive information
+    # - Two-factor tokens (:otp_attempt)
+    # - Repo/Project Import URLs (:import_url)
+    # - Build traces (:trace)
+    # - Build variables (:variables)
+    # - GitLab Pages SSL cert/key info (:certificate, :encrypted_key)
+    # - Webhook URLs (:hook)
+    # - Sentry DSN (:sentry_dsn)
+    # - File content from Web Editor (:content)
+    # - Jira shared secret (:sharedSecret)
+    # - Titles, bodies, and descriptions for notes, issues, etc.
+    #
+    # NOTE: It is **IMPORTANT** to also update labkit's filter when
