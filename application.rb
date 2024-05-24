@@ -212,3 +212,11 @@ module Gitlab
       /^text$/,
       /^title$/,
       /^hook$/
+    ]
+    config.filter_parameters += %i[
+      certificate
+      encrypted_key
+      import_url
+      elasticsearch_url
+      elasticsearch_password
+      search
