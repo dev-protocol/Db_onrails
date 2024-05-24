@@ -145,3 +145,18 @@ module Gitlab
       load_paths.call(dir: 'jh')
     end
 
+    # Rake tasks ignore the eager loading settings, so we need to set the
+    # autoload paths explicitly
+    config.autoload_paths = config.eager_load_paths.dup
+
+    # These are only used in Rake tasks so we don't need to add these to eager_load_paths
+    config.autoload_paths.push("#{config.root}/lib/generators")
+    Gitlab.ee { config.autoload_paths.push("#{config.root}/ee/lib/generators") }
+    Gitlab.jh { config.autoload_paths.push("#{config.root}/jh/lib/generators") }
+
+    # Add JH initializer into rails initializers path
+    Gitlab.jh { config.paths["config/initializers"] << "#{config.root}/jh/config/initializers" }
+
+    # Only load the plugins named here, in the order given (default is alphabetical).
+    # :all can be used as a placeholder for all plugins not explicitly named.
+    # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
