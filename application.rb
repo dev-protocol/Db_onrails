@@ -129,3 +129,19 @@ module Gitlab
       ext_paths << "#{config.root}/#{dir}/app/replicators"
 
       # Eager load should load CE first
+      config.eager_load_paths.push(*ext_paths)
+      config.helpers_paths.push "#{config.root}/#{dir}/app/helpers"
+
+      # Other than Ruby modules we load extensions first
+      config.paths['lib/tasks'].unshift "#{config.root}/#{dir}/lib/tasks"
+      config.paths['app/views'].unshift "#{config.root}/#{dir}/app/views"
+    end
+
+    Gitlab.ee do
+      load_paths.call(dir: 'ee')
+    end
+
+    Gitlab.jh do
+      load_paths.call(dir: 'jh')
+    end
+
