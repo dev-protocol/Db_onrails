@@ -259,3 +259,37 @@ module Gitlab
     # Enable the asset pipeline
     config.assets.enabled = true
 
+    # Disable adding field_with_errors wrapper to form elements
+    config.action_view.field_error_proc = proc { |html_tag, instance| html_tag }
+
+    # Support legacy unicode file named img emojis, `1F939.png`
+    config.assets.paths << TanukiEmoji.images_path
+    config.assets.paths << "#{config.root}/vendor/assets/fonts"
+
+    config.assets.precompile << "application_utilities.css"
+    config.assets.precompile << "application_utilities_dark.css"
+    config.assets.precompile << "application_dark.css"
+    config.assets.precompile << "tailwind.css"
+
+    config.assets.precompile << "print.css"
+    config.assets.precompile << "mailer.css"
+    config.assets.precompile << "mailer_client_specific.css"
+    config.assets.precompile << "notify.css"
+    config.assets.precompile << "notify_enhanced.css"
+    config.assets.precompile << "mailers/*.css"
+    config.assets.precompile << "page_bundles/_mixins_and_variables_and_functions.css"
+    config.assets.precompile << "page_bundles/admin/application_settings_metrics_and_profiling.css"
+    config.assets.precompile << "page_bundles/admin/elasticsearch_form.css"
+    config.assets.precompile << "page_bundles/admin/geo_sites.css"
+    config.assets.precompile << "page_bundles/admin/geo_replicable.css"
+    config.assets.precompile << "page_bundles/alert_management_details.css"
+    config.assets.precompile << "page_bundles/alert_management_settings.css"
+    config.assets.precompile << "page_bundles/billings.css"
+    config.assets.precompile << "page_bundles/boards.css"
+    config.assets.precompile << "page_bundles/branches.css"
+    config.assets.precompile << "page_bundles/build.css"
+    config.assets.precompile << "page_bundles/ci_status.css"
+    config.assets.precompile << "page_bundles/ci_cd_settings.css"
+    config.assets.precompile << "page_bundles/cluster_agents.css"
+    config.assets.precompile << "page_bundles/clusters.css"
+    config.assets.precompile << "page_bundles/commits.css"
