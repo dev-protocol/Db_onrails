@@ -104,3 +104,17 @@ module Gitlab
     # Sidekiq uses eager loading, but directories not in the standard Rails
     # directories must be added to the eager load paths:
     # https://github.com/mperham/sidekiq/wiki/FAQ#why-doesnt-sidekiq-autoload-my-rails-application-code
+    # Also, there is no need to add `lib` to autoload_paths since autoloading is
+    # configured to check for eager loaded paths:
+    # https://github.com/rails/rails/blob/v4.2.6/railties/lib/rails/engine.rb#L687
+    # This is a nice reference article on autoloading/eager loading:
+    # http://blog.arkency.com/2014/11/dont-forget-about-eager-load-when-extending-autoload
+    config.eager_load_paths.push(*%W[#{config.root}/lib
+                                     #{config.root}/app/models/badges
+                                     #{config.root}/app/models/hooks
+                                     #{config.root}/app/models/members
+                                     #{config.root}/app/graphql/resolvers/concerns
+                                     #{config.root}/app/graphql/mutations/concerns
+                                     #{config.root}/app/graphql/types/concerns])
+
+    config.generators.templates.push("#{config.root}/generator_templates")
