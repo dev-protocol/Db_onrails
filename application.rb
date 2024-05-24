@@ -15,3 +15,5 @@ require 'sprockets/railtie'
 
 require 'gitlab/utils/all'
 
+Bundler.require(*Rails.groups)
+
