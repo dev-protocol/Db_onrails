@@ -553,3 +553,24 @@ module Gitlab
       config.factory_bot.definition_file_paths << 'ee/spec/factories' if Gitlab.ee?
       config.factory_bot.definition_file_paths << 'jh/spec/factories' if Gitlab.jh?
     end
+
+    # sprocket-rails adds some precompile assets we actually do not need.
+    #
+    # It copies all _non_ js and CSS files from the app/assets/ folder.
+    #
+    # In our case this copies for example: Vue, Markdown and Graphql, which we do not need
+    # for production.
+    #
+    # We remove this default behavior and then reimplement it in order to consider ee/ as well
+    # and remove those other files we do not need.
+    #
+    # For reference: https://github.com/rails/sprockets-rails/blob/v3.2.1/lib/sprockets/railtie.rb#L84-L87
+    initializer :correct_precompile_targets, after: :set_default_precompile do |app|
+      app.config.assets.precompile.reject! { |entry| entry == Sprockets::Railtie::LOOSE_APP_ASSETS }
+
+      # if two files in assets are named the same, it'll likely resolve to the normal app/assets version.
+      # See https://gitlab.com/gitlab-jh/gitlab/-/merge_requests/27#note_609101582 for more details
+      asset_roots = []
+
+      if Gitlab.jh?
+        asset_roots << config.root.join("jh/app/assets").to_s
