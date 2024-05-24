@@ -241,3 +241,8 @@ class ObjectStoreSettings
     has_object_store_configured?(section)
   end
 
+  def has_object_store_configured?(section)
+    # Omnibus defaults to an empty hash for connection
+    section.dig('object_store', 'enabled') && section.dig('object_store', 'connection').present?
+  end
+end
