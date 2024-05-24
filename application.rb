@@ -607,3 +607,16 @@ module Gitlab
     # Add assets for variants of GitLab. They should take precedence over CE.
     # This means if multiple files exist, e.g.:
     #
+    # jh/app/assets/stylesheets/example.scss
+    # ee/app/assets/stylesheets/example.scss
+    # app/assets/stylesheets/example.scss
+    #
+    # The jh/ version will be preferred.
+    initializer :prefer_specialized_assets, after: :append_assets_path, before: :build_middleware_stack do |app|
+      Gitlab.extensions.each do |extension|
+        %w[images javascripts stylesheets].each do |path|
+          app.config.assets.paths.unshift("#{config.root}/#{extension}/app/assets/#{path}")
+        end
+      end
+    end
+
