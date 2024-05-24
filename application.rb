@@ -17,3 +17,13 @@ require 'gitlab/utils/all'
 
 Bundler.require(*Rails.groups)
 
+module Gitlab
+  class Application < Rails::Application
+    config.load_defaults 7.0
+    # This section contains configuration from Rails upgrades to override the new defaults so that we
+    # keep existing behavior.
+    #
+    # For boolean values, the new default is the opposite of the value being set in this section.
+    # For other types, the new default is noted in the comments. These are also documented in
+    # https://guides.rubyonrails.org/configuring.html#results-of-config-load-defaults
+    #
