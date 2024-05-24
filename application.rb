@@ -620,3 +620,17 @@ module Gitlab
       end
     end
 
+    # Add `app/assets/builds` as the highest precedence to find assets
+    initializer :add_cssbundling_output_dir, after: :prefer_specialized_assets do |app|
+      app.config.assets.paths.unshift("#{config.root}/app/assets/builds")
+    end
+
+    # We run the contents of active_record.clear_active_connections again
+    # because we connect to database from routes
+    # https://github.com/rails/rails/blob/fdf840f69a2e33d78a9d40b91d9b7fddb76711e9/activerecord/lib/active_record/railtie.rb#L308
+    initializer :clear_active_connections_again, after: :set_routes_reloader_hook do
+      # rubocop:disable Database/MultipleDatabases
+      ActiveRecord::Base.connection_handler.clear_active_connections!(ActiveRecord::Base.current_role)
+      ActiveRecord::Base.connection_handler.flush_idle_connections!(ActiveRecord::Base.current_role)
+      # rubocop:enable Database/MultipleDatabases
+    end
