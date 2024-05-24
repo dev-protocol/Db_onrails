@@ -574,3 +574,18 @@ module Gitlab
 
       if Gitlab.jh?
         asset_roots << config.root.join("jh/app/assets").to_s
+      end
+
+      asset_roots << config.root.join("app/assets").to_s
+
+      if Gitlab.ee?
+        asset_roots << config.root.join("ee/app/assets").to_s
+      end
+
+      LOOSE_APP_ASSETS = lambda do |logical_path, filename|
+        filename.start_with?(*asset_roots) &&
+          ['.js', '.css', '.md', '.vue', '.graphql', ''].exclude?(File.extname(logical_path))
+      end
+
+      app.config.assets.precompile << LOOSE_APP_ASSETS
+    end
