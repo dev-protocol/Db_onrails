@@ -139,3 +139,14 @@ class ObjectStoreSettings
   #   "proxy_download" => true,
   #   "remote_directory" => "lfs-objects"
   # }
+  #
+  # Note that with the common config:
+  # 1. Only one object store credentials can now be used. This is
+  #    necessary to limit configuration overhead when an object storage
+  #    client (e.g. AWS S3) is used inside GitLab Workhorse.
+  # 2. However, a bucket has to be specified for each object
+  #    type. Reusing buckets is not really supported, but we don't
+  #    enforce that yet.
+  # 3. direct_upload cannot be configured anymore.
+  def parse!
+    return unless use_consolidated_settings?
