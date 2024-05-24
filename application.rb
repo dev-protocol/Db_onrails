@@ -27,3 +27,14 @@ module Gitlab
     # For other types, the new default is noted in the comments. These are also documented in
     # https://guides.rubyonrails.org/configuring.html#results-of-config-load-defaults
     #
+    # To switch a setting to the new default value, we just need to delete the specific line here.
+
+    # Rails 7.0
+    config.action_controller.raise_on_open_redirects = false
+    config.action_dispatch.return_only_request_media_type_on_content_type = true
+    config.action_mailer.smtp_timeout = nil # New default is 5
+    config.action_view.button_to_generates_button_tag = nil # New default is true
+    config.active_record.automatic_scope_inversing = nil # New default is true
+    config.active_record.verify_foreign_keys_for_fixtures = nil # New default is true
+    config.active_record.partial_inserts = true # New default is false
+    config.active_support.cache_format_version = nil # New default is 7.0
