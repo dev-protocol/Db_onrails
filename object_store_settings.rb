@@ -228,4 +228,9 @@ class ObjectStoreSettings
   def missing_bucket_for(store_type)
     message = "Object storage for #{store_type} must have a bucket specified"
 
+    if ALLOWED_INCOMPLETE_TYPES.include?(store_type)
+      warn "[WARNING] #{message}"
+    else
+      raise message
+    end
  
