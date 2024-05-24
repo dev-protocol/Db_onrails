@@ -435,3 +435,14 @@ module Gitlab
 
     config.middleware.insert_after ActionDispatch::ShowExceptions, ::Gitlab::Middleware::HandleMalformedStrings
 
+    config.middleware.insert_after ::Gitlab::Middleware::HandleMalformedStrings, ::Gitlab::Middleware::PathTraversalCheck
+
+    config.middleware.insert_after Rack::Sendfile, ::Gitlab::Middleware::RackMultipartTempfileFactory
+
+    config.middleware.insert_before Rack::Runtime, ::Gitlab::Middleware::CompressedJson
+
+    # Allow access to GitLab API from other domains
+    config.middleware.insert_before Warden::Manager, Rack::Cors do
+      headers_to_expose = %w[Link X-Total X-Total-Pages X-Per-Page X-Page X-Next-Page X-Prev-Page X-Gitlab-Blob-Id X-Gitlab-Commit-Id X-Gitlab-Content-Sha256 X-Gitlab-Encoding X-Gitlab-File-Name X-Gitlab-File-Path X-Gitlab-Last-Commit-Id X-Gitlab-Ref X-Gitlab-Size X-Request-Id]
+
+      allow do
