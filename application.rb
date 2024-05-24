@@ -460,3 +460,14 @@ module Gitlab
         resource '/api/*',
           credentials: false,
           headers: :any,
+          methods: :any,
+          expose: headers_to_expose
+      end
+
+      allow do
+        origins { |source, env| source == Gitlab::CurrentSettings.jira_connect_proxy_url }
+        resource '/-/jira_connect/oauth_application_id', headers: :any, credentials: false, methods: %i[get options]
+      end
+
+      allow do
+        origins { |source, env| source == Gitlab::CurrentSettings.jira_connect_proxy_url }
