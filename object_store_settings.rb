@@ -33,3 +33,7 @@ class ObjectStoreSettings
     )
 
     object_store['direct_upload'] = true
+
+    object_store['proxy_download'] = false if object_store['proxy_download'].nil?
+    object_store['storage_options'] ||= {}
+
