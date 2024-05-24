@@ -376,3 +376,17 @@ module Gitlab
     config.assets.precompile << "snippets.css"
     config.assets.precompile << "fonts.css"
     config.assets.precompile << "locale/**/app.js"
+    config.assets.precompile << "emoji_sprites.css"
+    config.assets.precompile << "errors.css"
+    config.assets.precompile << "jira_connect.js"
+    config.assets.precompile << "xterm.css"
+
+    config.assets.precompile << "themes/*.css"
+
+    config.assets.precompile << "highlight/themes/*.css"
+    config.assets.precompile << "highlight/diff_custom_colors_addition.css"
+    config.assets.precompile << "highlight/diff_custom_colors_deletion.css"
+
+    # Import woff2 for fonts
+    config.assets.paths << "#{config.root}/node_modules/@gitlab/fonts/"
+    config.assets.precompile << "gitlab-sans/*.woff2"
