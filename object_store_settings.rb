@@ -70,3 +70,6 @@ class ObjectStoreSettings
 
       next unless endpoint
 
+      URI(endpoint)
+    end.uniq
+  end
