@@ -157,3 +157,9 @@ class ObjectStoreSettings
     # These are no longer configurable if common config is used
     common_config['direct_upload'] = true
     common_config['storage_options'] ||= {}
+
+    SUPPORTED_TYPES.each do |store_type|
+      overrides = main_config.dig('objects', store_type) || {}
+      target_config = common_config.merge(overrides.slice(*ALLOWED_OBJECT_STORE_OVERRIDES))
+      section = settings.try(store_type)
+
