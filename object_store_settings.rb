@@ -195,3 +195,9 @@ class ObjectStoreSettings
 
   private
 
+  # We only can use the common object storage settings if:
+  # 1. The common settings are defined
+  # 2. The legacy settings are not defined
+  def use_consolidated_settings?
+    return false unless settings.dig('object_store', 'enabled')
+
