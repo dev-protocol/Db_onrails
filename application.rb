@@ -198,3 +198,17 @@ module Gitlab
     # - Titles, bodies, and descriptions for notes, issues, etc.
     #
     # NOTE: It is **IMPORTANT** to also update labkit's filter when
+    #       adding parameters here to not introduce another security
+    #       vulnerability:
+    #       https://gitlab.com/gitlab-org/labkit/blob/master/mask/matchers.go
+    config.filter_parameters += [
+      /token$/,
+      /password/,
+      /secret/,
+      /key$/,
+      /^body$/,
+      /^description$/,
+      /^note$/,
+      /^text$/,
+      /^title$/,
+      /^hook$/
