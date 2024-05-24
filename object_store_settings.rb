@@ -56,3 +56,9 @@ class ObjectStoreSettings
     [bucket, prefix]
   end
 
+  def self.enabled_endpoint_uris
+    SUPPORTED_TYPES.filter_map do |type|
+      section_setting = Gitlab.config.try(type)
+
+      next unless section_setting && section_setting['enabled']
+
