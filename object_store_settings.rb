@@ -205,3 +205,5 @@ class ObjectStoreSettings
 
     return false unless connection.present?
 
+    WORKHORSE_ACCELERATED_TYPES.each do |store|
+      section = settings.try(store)
