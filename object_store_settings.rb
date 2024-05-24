@@ -41,3 +41,18 @@ class ObjectStoreSettings
   end
 
   def self.split_bucket_prefix(bucket)
+    return [nil, nil] unless bucket.present?
+
+    # Strictly speaking, object storage keys are not Unix paths and
+    # characters like '/' and '.' have no special meaning. But in practice,
+    # we do treat them like paths, and somewhere along the line something or
+    # somebody may turn '//' into '/' or try to resolve '/..'. To guard
+    # against this we reject "bad" combinations of '/' and '.'.
+    [%r{\A\.*/}, %r{/\.*/}, %r{/\.*\z}].each do |re|
+      raise 'invalid bucket' if re.match(bucket)
+    end
+
+    bucket, prefix = bucket.split('/', 2)
+    [bucket, prefix]
+  end
+
