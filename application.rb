@@ -238,3 +238,24 @@ module Gitlab
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
+
+    # Use SQL instead of Active Record's schema dumper when creating the database.
+    # This is necessary if your schema can't be completely dumped by the schema dumper,
+    # like if you have constraints or database-specific column types
+    config.active_record.schema_format = :sql
+
+    # Dump all DB schemas even if schema_search_path is defined,
+    # so that we get the same db/structure.sql
+    # regardless if schema_search_path is set, or not.
+    config.active_record.dump_schemas = :all
+
+    # Override default Active Record settings
+    # We cannot do this in an initializer because some models are already loaded by then
+    config.active_record.cache_versioning = false
+    config.active_record.collection_cache_versioning = false
+    config.active_record.has_many_inversing = false
+    config.active_record.belongs_to_required_by_default = false
+
+    # Enable the asset pipeline
+    config.assets.enabled = true
+
