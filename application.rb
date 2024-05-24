@@ -417,7 +417,8 @@ module Gitlab
     # See https://gitlab.com/gitlab-org/gitlab-foss/issues/64091#note_194512508
     config.assets.paths << "#{config.root}/node_modules"
 
-    # Version of your assets, change this if you want to expire all your assets    config.assets.version = '1.0'
+    # Version of your assets, change this if you want to expire all your assets
+    config.assets.version = '1.0'
 
     # Nokogiri is significantly faster and uses less memory than REXML
     ActiveSupport::XmlMini.backend = 'Nokogiri'
