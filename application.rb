@@ -446,3 +446,17 @@ module Gitlab
       headers_to_expose = %w[Link X-Total X-Total-Pages X-Per-Page X-Page X-Next-Page X-Prev-Page X-Gitlab-Blob-Id X-Gitlab-Commit-Id X-Gitlab-Content-Sha256 X-Gitlab-Encoding X-Gitlab-File-Name X-Gitlab-File-Path X-Gitlab-Last-Commit-Id X-Gitlab-Ref X-Gitlab-Size X-Request-Id]
 
       allow do
+        origins Gitlab.config.gitlab.url
+        resource '/api/*',
+          credentials: true,
+          headers: :any,
+          methods: :any,
+          expose: headers_to_expose
+      end
+
+      # Cross-origin requests must not have the session cookie available
+      allow do
+        origins '*'
+        resource '/api/*',
+          credentials: false,
+          headers: :any,
