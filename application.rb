@@ -402,3 +402,19 @@ module Gitlab
     config.assets.precompile << "file_icons/file_icons.json"
     config.assets.precompile << "illustrations/*.svg"
     config.assets.precompile << "illustrations/*.png"
+
+    # Import path for EE specific SCSS entry point
+    # In CE it will import a noop file, in EE a functioning file
+    # Order is important, so that the ee file takes precedence:
+    config.assets.paths << "#{config.root}/jh/app/assets/stylesheets/_jh" if Gitlab.jh?
+    config.assets.paths << "#{config.root}/ee/app/assets/stylesheets/_ee" if Gitlab.ee?
+    config.assets.paths << "#{config.root}/app/assets/stylesheets/_jh"
+    config.assets.paths << "#{config.root}/app/assets/stylesheets/_ee"
+
+    config.assets.paths << "#{config.root}/vendor/assets/javascripts/"
+
+    # This path must come last to avoid confusing sprockets
+    # See https://gitlab.com/gitlab-org/gitlab-foss/issues/64091#note_194512508
+    config.assets.paths << "#{config.root}/node_modules"
+
+    # Version of your assets, change this if you want to expire all your assets
