@@ -220,3 +220,14 @@ module Gitlab
       elasticsearch_url
       elasticsearch_password
       search
+      jwt
+      mailgun_signing_key
+      otp_attempt
+      sentry_dsn
+      trace
+      variables
+      content
+      sharedSecret
+      redirect
+      question
+      SAMLResponse
