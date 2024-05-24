@@ -18,3 +18,18 @@ class ObjectStoreSettings
   # consolidated settings for other object types, exclude it here.
   WORKHORSE_ACCELERATED_TYPES = SUPPORTED_TYPES - %w[pages ci_secure_files]
 
+  # pages and ci_secure_files may be enabled but use legacy disk storage
+  # we don't need to raise an error in that case
+  ALLOWED_INCOMPLETE_TYPES = %w[pages ci_secure_files].freeze
+
+  attr_accessor :settings
+
+  # Legacy parser
+  def self.legacy_parse(object_store, object_store_type)
+    object_store ||= GitlabSettings::Options.build({})
+    object_store['enabled'] = false if object_store['enabled'].nil?
+    object_store['remote_directory'], object_store['bucket_prefix'] = split_bucket_prefix(
+      object_store['remote_directory']
+    )
+
+    object_store['direct_upload'] = true
