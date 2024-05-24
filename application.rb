@@ -47,3 +47,18 @@ module Gitlab
     # Rails 6.1
     config.action_dispatch.cookies_same_site_protection = nil # New default is :lax
     ActiveSupport.utc_to_local_returns_utc_offset_times = false
+    config.action_view.preload_links_header = false
+
+    # Rails 5.2
+    config.action_dispatch.use_authenticated_cookie_encryption = false
+    config.active_support.use_authenticated_message_encryption = false
+    config.action_controller.default_protect_from_forgery = false
+    config.action_view.form_with_generates_ids = false
+
+    # Rails 5.1
+    config.assets.unknown_asset_fallback = true
+
+    # Rails 5.0
+    config.action_controller.per_form_csrf_tokens = false
+    config.action_controller.forgery_protection_origin_check = false
+    ActiveSupport.to_time_preserves_timezone = false
