@@ -73,3 +73,69 @@ class ObjectStoreSettings
       URI(endpoint)
     end.uniq
   end
+
+  def initialize(settings)
+    @settings = settings
+  end
+
+  # This method converts the common object storage settings to
+  # the legacy, internal representation.
+  #
+  # For example, with the folowing YAML:
+  #
+  # object_store:
+  #   enabled: true
+  #   connection:
+  #     provider: AWS
+  #     aws_access_key_id: minio
+  #     aws_secret_access_key: gdk-minio
+  #     region: gdk
+  #     endpoint: 'http://127.0.0.1:9000'
+  #     path_style: true
+  #   storage_options:
+  #     server_side_encryption: AES256
+  #   proxy_download: true
+  #   objects:
+  #     artifacts:
+  #       bucket: artifacts
+  #       proxy_download: false
+  #     lfs:
+  #       bucket: lfs-objects
+  #
+  # This method then will essentially call:
+  #
+  # Settings.artifacts['object_store'] = {
+  #   "enabled" => true,
+  #   "connection" => {
+  #     "provider" => "AWS",
+  #     "aws_access_key_id" => "minio",
+  #     "aws_secret_access_key" => "gdk-minio",
+  #     "region" => "gdk",
+  #     "endpoint" => "http://127.0.0.1:9000",
+  #     "path_style" => true
+  #   },
+  #   "storage_options" => {
+  #     "server_side_encryption" => "AES256"
+  #   },
+  #   "direct_upload" => true,
+  #   "proxy_download" => false,
+  #   "remote_directory" => "artifacts"
+  # }
+  #
+  # Settings.lfs['object_store'] = {
+  #   "enabled" => true,
+  #   "connection" => {
+  #     "provider" => "AWS",
+  #     "aws_access_key_id" => "minio",
+  #     "aws_secret_access_key" => "gdk-minio",
+  #     "region" => "gdk",
+  #     "endpoint" => "http://127.0.0.1:9000",
+  #     "path_style" => true
+  #   },
+  #   "storage_options" => {
+  #     "server_side_encryption" => "AES256"
+  #   },
+  #   "direct_upload" => true,
+  #   "proxy_download" => true,
+  #   "remote_directory" => "lfs-objects"
+  # }
