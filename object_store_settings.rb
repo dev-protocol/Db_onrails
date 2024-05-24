@@ -163,3 +163,7 @@ class ObjectStoreSettings
       target_config = common_config.merge(overrides.slice(*ALLOWED_OBJECT_STORE_OVERRIDES))
       section = settings.try(store_type)
 
+      # Admins can selectively disable object storage for a specific
+      # type as an override in the consolidated settings.
+      next unless overrides.fetch('enabled', true)
+      next unless section
