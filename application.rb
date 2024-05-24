@@ -84,3 +84,23 @@ module Gitlab
     require_dependency Rails.root.join('lib/gitlab/middleware/handle_malformed_strings')
     require_dependency Rails.root.join('lib/gitlab/middleware/path_traversal_check')
     require_dependency Rails.root.join('lib/gitlab/middleware/rack_multipart_tempfile_factory')
+    require_dependency Rails.root.join('lib/gitlab/runtime')
+    require_dependency Rails.root.join('lib/gitlab/patch/database_config')
+    require_dependency Rails.root.join('lib/gitlab/patch/redis_cache_store')
+    require_dependency Rails.root.join('lib/gitlab/exceptions_app')
+
+    config.exceptions_app = Gitlab::ExceptionsApp.new(Gitlab.jh? ? Rails.root.join('jh/public') : Rails.public_path)
+
+    # This preload is required to:
+    #
+    # 1. Support providing sensitive DB configuration through an external script;
+    # 2. Include Geo post-deployment migrations settings;
+    config.class.prepend(::Gitlab::Patch::DatabaseConfig)
+
+    # Settings in config/environments/* take precedence over those specified here.
+    # Application configuration should go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded.
+
+    # Sidekiq uses eager loading, but directories not in the standard Rails
+    # directories must be added to the eager load paths:
+    # https://github.com/mperham/sidekiq/wiki/FAQ#why-doesnt-sidekiq-autoload-my-rails-application-code
