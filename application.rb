@@ -539,3 +539,17 @@ module Gitlab
     config.action_mailer.deliver_later_queue_name = :mailers
 
     # This is needed for gitlab-shell
+    ENV['GITLAB_PATH_OUTSIDE_HOOK'] = ENV['PATH']
+    ENV['GIT_TERMINAL_PROMPT'] = '0'
+
+    # GitLab Read-only middleware support
+    config.middleware.insert_after ActionDispatch::Flash, ::Gitlab::Middleware::ReadOnly
+
+    config.generators do |g|
+      g.factory_bot false
+    end
+
+    if defined?(FactoryBotRails)
+      config.factory_bot.definition_file_paths << 'ee/spec/factories' if Gitlab.ee?
+      config.factory_bot.definition_file_paths << 'jh/spec/factories' if Gitlab.jh?
+    end
