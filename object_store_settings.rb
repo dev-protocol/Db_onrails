@@ -62,3 +62,6 @@ class ObjectStoreSettings
 
       next unless section_setting && section_setting['enabled']
 
+      object_store_setting = section_setting['object_store']
+
+      next unless object_store_setting && object_store_setting['enabled']
