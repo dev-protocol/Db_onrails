@@ -201,3 +201,7 @@ class ObjectStoreSettings
   def use_consolidated_settings?
     return false unless settings.dig('object_store', 'enabled')
 
+    connection = settings.dig('object_store', 'connection')
+
+    return false unless connection.present?
+
