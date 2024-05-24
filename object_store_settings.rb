@@ -176,3 +176,8 @@ class ObjectStoreSettings
       # If a storage type such as Pages defines its own connection and does not
       # use Workhorse acceleration, we allow it to override the consolidated form.
       next if allowed_storage_specific_settings?(store_type, section.to_h)
+
+      # Map bucket (external name) -> remote_directory (internal representation)
+      target_config['remote_directory'], target_config['bucket_prefix'] = self.class.split_bucket_prefix(
+        target_config.delete('bucket')
+      )
