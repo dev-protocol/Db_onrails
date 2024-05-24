@@ -634,3 +634,19 @@ module Gitlab
       ActiveRecord::Base.connection_handler.flush_idle_connections!(ActiveRecord::Base.current_role)
       # rubocop:enable Database/MultipleDatabases
     end
+
+    # DO NOT PLACE ANY INITIALIZERS AFTER THIS.
+    config.after_initialize do
+      config.active_record.yaml_column_permitted_classes = [
+        Symbol, Date, Time,
+        BigDecimal, # https://gitlab.com/gitlab-org/gitlab/issues/368846
+        Gitlab::Diff::Position,
+        # Used in:
+        # app/models/concerns/diff_positionable_note.rb
+        # app/models/legacy_diff_note.rb:  serialize :st_diff
+        ActiveSupport::HashWithIndifferentAccess,
+        # Used in ee/lib/ee/api/helpers.rb: send_git_archive
+        DeployToken,
+        ActiveModel::Attribute.const_get(:FromDatabase, false), # https://gitlab.com/gitlab-org/gitlab/-/issues/368072
+        # Used in app/services/web_hooks/log_execution_service.rb: log_execution
+        ActiveSupport::TimeWithZone,
