@@ -221,3 +221,8 @@ class ObjectStoreSettings
       # section-specific connection.
       return false if section_connection.present? && section_connection.to_h != connection.to_h
     end
+
+    true
+  end
+
+ 
