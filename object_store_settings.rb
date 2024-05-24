@@ -150,3 +150,6 @@ class ObjectStoreSettings
   # 3. direct_upload cannot be configured anymore.
   def parse!
     return unless use_consolidated_settings?
+
+    main_config = settings['object_store']
+    common_config = main_config.slice('enabled', 'connection', 'proxy_download', 'storage_options')
