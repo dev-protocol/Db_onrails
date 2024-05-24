@@ -417,4 +417,20 @@ module Gitlab
     # See https://gitlab.com/gitlab-org/gitlab-foss/issues/64091#note_194512508
     config.assets.paths << "#{config.root}/node_modules"
 
-    # Version of your assets, change this if you want to expire all your assets
+    # Version of your assets, change this if you want to expire all your assets    config.assets.version = '1.0'
+
+    # Nokogiri is significantly faster and uses less memory than REXML
+    ActiveSupport::XmlMini.backend = 'Nokogiri'
+
+    # This middleware needs to precede ActiveRecord::QueryCache and other middlewares that
+    # connect to the database.
+    config.middleware.insert_after Rails::Rack::Logger, ::Gitlab::Middleware::BasicHealthCheck
+
+    config.middleware.insert_after Warden::Manager, Rack::Attack
+
+    config.middleware.insert_before ActionDispatch::Cookies, ::Gitlab::Middleware::SameSiteCookies
+
+    config.middleware.insert_before ActionDispatch::RemoteIp, ::Gitlab::Middleware::HandleIpSpoofAttackError
+
+    config.middleware.insert_after ActionDispatch::ShowExceptions, ::Gitlab::Middleware::HandleMalformedStrings
+
