@@ -153,3 +153,7 @@ class ObjectStoreSettings
 
     main_config = settings['object_store']
     common_config = main_config.slice('enabled', 'connection', 'proxy_download', 'storage_options')
+
+    # These are no longer configurable if common config is used
+    common_config['direct_upload'] = true
+    common_config['storage_options'] ||= {}
