@@ -471,3 +471,19 @@ module Gitlab
 
       allow do
         origins { |source, env| source == Gitlab::CurrentSettings.jira_connect_proxy_url }
+        resource '/-/jira_connect/subscriptions.json', headers: :any, credentials: false, methods: %i[get options]
+      end
+
+      allow do
+        origins { |source, env| source == Gitlab::CurrentSettings.jira_connect_proxy_url }
+        resource '/-/jira_connect/subscriptions/*', headers: :any, credentials: false, methods: %i[delete options]
+      end
+
+      # Cross-origin requests must be enabled for the Authorization code with PKCE OAuth flow when used from a browser.
+      %w[/oauth/token /oauth/revoke].each do |oauth_path|
+        allow do
+          origins '*'
+          resource oauth_path,
+            # These headers are added as defaults to axios.
+            # See: https://gitlab.com/gitlab-org/gitlab/-/blob/dd1e70d3676891025534dc4a1e89ca9383178fe7/app/assets/javascripts/lib/utils/axios_utils.js#L8)
+            # It's added to declare that this is a XHR request and add the CSRF token without which Rails may reject the request from the frontend.
